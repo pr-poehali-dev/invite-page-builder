@@ -1,6 +1,6 @@
 import Icon from '@/components/ui/icon';
 
-const heroBg = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/files/94f492aa-2b1c-4c56-8c68-51fcc7156018.jpg";
+const heroBg = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/5b668bf7-2881-4117-a0dd-00cad4826000.jpg";
 const speakerPhoto = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/4578094e-a3b0-4edc-ae34-fb4ff7f44768.jpg";
 const iskraLogo = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/89cdd506-e3ac-49c2-b8c7-5d38c21a08a2.png";
 
@@ -32,6 +32,8 @@ export default function VstrechaIskra() {
         </div>
       </section>
 
+      <div className="iskra-sep"><span>✦</span></div>
+
       {/* QUOTE */}
       <section className="iskra-quote-section">
         <div className="iskra-container">
@@ -43,6 +45,8 @@ export default function VstrechaIskra() {
           </blockquote>
         </div>
       </section>
+
+      <div className="iskra-sep"><span>✦</span></div>
 
       {/* О ЧЁМ ВСТРЕЧА */}
       <section className="iskra-topics-section">
@@ -70,6 +74,8 @@ export default function VstrechaIskra() {
         </div>
       </section>
 
+      <div className="iskra-sep"><span>✦</span></div>
+
       {/* СПИКЕР */}
       <section className="iskra-speaker-section">
         <div className="iskra-container">
@@ -96,6 +102,8 @@ export default function VstrechaIskra() {
           </div>
         </div>
       </section>
+
+      <div className="iskra-sep"><span>✦</span></div>
 
       {/* КНОПКИ */}
       <section className="iskra-cta-section">

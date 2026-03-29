@@ -141,9 +141,9 @@
   inset: 0;
   background: linear-gradient(
     160deg,
-    rgba(45, 31, 78, 0.65) 0%,
-    rgba(120, 80, 180, 0.45) 50%,
-    rgba(232, 200, 74, 0.25) 100%
+    rgba(20, 10, 40, 0.78) 0%,
+    rgba(60, 20, 80, 0.6) 50%,
+    rgba(20, 10, 40, 0.72) 100%
   );
 }
 
@@ -548,6 +548,36 @@
   .iskra-btn-outline {
     grid-column: span 1;
   }
+}
+
+/* SEPARATOR */
+.iskra-sep {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--iskra-cream);
+  padding: 0.2rem 2rem;
+}
+
+.iskra-sep::before,
+.iskra-sep::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--iskra-purple),
+    transparent
+  );
+  opacity: 0.4;
+}
+
+.iskra-sep span {
+  color: var(--iskra-purple);
+  font-size: 0.65rem;
+  opacity: 0.5;
+  padding: 0 0.8rem;
 }
 
 /* FOOTER */
