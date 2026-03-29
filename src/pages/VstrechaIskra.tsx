@@ -17,9 +17,8 @@ export default function VstrechaIskra() {
             <span className="iskra-fullerene">⬡</span> Фуллерен
           </h1>
           <div className="iskra-divider" />
-          <p className="iskra-invite-label">приглашает вас на</p>
+          <p className="iskra-invite-label">приглашает вас на женскую встречу</p>
           <img src={iskraLogo} alt="ИскРа" className="iskra-logo-img" />
-          <p className="iskra-event-subtitle">Женская встреча</p>
           <div className="iskra-event-details">
             <div className="iskra-detail-item">
               <Icon name="Calendar" size={20} />
