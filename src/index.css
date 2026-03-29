@@ -468,7 +468,7 @@
 /* CTA */
 .iskra-cta-section {
   padding: 5rem 1rem;
-  background: linear-gradient(160deg, var(--iskra-dark), #4a2d8a);
+  background: linear-gradient(160deg, #1a1030 0%, #3d2060 50%, #2a1545 100%);
   text-align: center;
 }
 
