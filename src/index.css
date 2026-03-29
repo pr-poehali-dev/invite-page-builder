@@ -216,15 +216,12 @@
   margin-bottom: 0.5rem;
 }
 
-.iskra-event-title {
-  font-family: "Caveat", cursive;
-  font-size: clamp(5rem, 16vw, 9rem);
-  font-weight: 700;
-  color: var(--iskra-gold);
-  line-height: 1;
-  text-shadow: 0 0 60px rgba(232, 200, 74, 0.6);
-  margin: 0;
-  letter-spacing: -0.01em;
+.iskra-logo-img {
+  width: clamp(240px, 58vw, 420px);
+  height: auto;
+  margin: 0 auto 0.2rem;
+  display: block;
+  filter: drop-shadow(0 0 28px rgba(232, 200, 74, 0.6)) brightness(1.05);
 }
 
 .iskra-event-subtitle {

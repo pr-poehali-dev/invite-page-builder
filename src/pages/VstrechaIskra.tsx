@@ -1,7 +1,8 @@
 import Icon from '@/components/ui/icon';
 
 const heroBg = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/files/94f492aa-2b1c-4c56-8c68-51fcc7156018.jpg";
-const speakerPhoto = "https://cdn.poehali.dev/projects/4d42a0ab-9035-47df-ab8c-33a5c4f90991/bucket/b6eaa3b7-790c-430c-a9b2-616513e17db5.jpg";
+const speakerPhoto = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/4578094e-a3b0-4edc-ae34-fb4ff7f44768.jpg";
+const iskraLogo = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/89cdd506-e3ac-49c2-b8c7-5d38c21a08a2.png";
 
 export default function VstrechaIskra() {
   return (
@@ -17,7 +18,7 @@ export default function VstrechaIskra() {
           </h1>
           <div className="iskra-divider" />
           <p className="iskra-invite-label">приглашает вас на</p>
-          <h2 className="iskra-event-title">ИскРа</h2>
+          <img src={iskraLogo} alt="ИскРа" className="iskra-logo-img" />
           <p className="iskra-event-subtitle">Женская встреча</p>
           <div className="iskra-event-details">
             <div className="iskra-detail-item">
