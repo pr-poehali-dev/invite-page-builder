@@ -89,7 +89,7 @@ export default function VstrechaIskra() {
                 <li><span className="iskra-li-dot">✦</span> Многодетная мама</li>
                 <li><span className="iskra-li-dot">✦</span> Специалист квантовой психологии и педагогики</li>
                 <li><span className="iskra-li-dot">✦</span> Основатель Центра «Вдохновение»</li>
-                <li><span className="iskra-li-dot">✦</span> Соавтор курса «ИскРа» для женщин</li>
+                <li><span className="iskra-li-dot">✦</span> Соавтор и ведущая курса «ИскРа» для женщин</li>
                 <li><span className="iskra-li-dot">✦</span> Просто счастливая женщина</li>
               </ul>
             </div>
@@ -110,7 +110,7 @@ export default function VstrechaIskra() {
               className="iskra-btn iskra-btn-primary"
             >
               <Icon name="Send" size={20} />
-              Присоединиться к сообществу в ТГ
+              Сообщество в ТГ
             </a>
 
             <a
@@ -140,7 +140,7 @@ export default function VstrechaIskra() {
               className="iskra-btn iskra-btn-outline"
             >
               <Icon name="Globe" size={20} />
-              Перейти на сайт
+              Сайт центра
             </a>
 
           </div>

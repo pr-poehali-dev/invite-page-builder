@@ -207,13 +207,14 @@
 }
 
 .iskra-invite-label {
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.75);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+  font-weight: 400;
+  font-style: italic;
+  color: white;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.3);
 }
 
 .iskra-logo-img {
