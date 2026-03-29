@@ -99,3 +99,465 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ========================================
+   ISKRA PAGE — Женская встреча
+   ======================================== */
+
+:root {
+  --iskra-purple: #b09bdc;
+  --iskra-purple-dark: #7c5cbf;
+  --iskra-purple-light: #e8dfff;
+  --iskra-gold: #e8c84a;
+  --iskra-gold-light: #fff7c2;
+  --iskra-cream: #fdf8f0;
+  --iskra-dark: #2d1f4e;
+  --iskra-text: #3d2e5e;
+  --iskra-muted: #7a6a99;
+}
+
+.iskra-page {
+  font-family: "Montserrat", sans-serif;
+  color: var(--iskra-text);
+  background: var(--iskra-cream);
+  min-height: 100vh;
+}
+
+/* HERO */
+.iskra-hero {
+  position: relative;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.iskra-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(45, 31, 78, 0.65) 0%,
+    rgba(120, 80, 180, 0.45) 50%,
+    rgba(232, 200, 74, 0.25) 100%
+  );
+}
+
+.iskra-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  animation: iskra-fade-up 1s ease both;
+}
+
+@keyframes iskra-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.iskra-badge {
+  display: inline-block;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--iskra-gold-light);
+  border: 1px solid rgba(232, 200, 74, 0.5);
+  border-radius: 999px;
+  padding: 0.4rem 1.2rem;
+  margin-bottom: 1.2rem;
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.iskra-fullerene {
+  color: var(--iskra-gold);
+}
+
+.iskra-center-name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 300;
+  color: white;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.iskra-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--iskra-gold),
+    transparent
+  );
+  margin: 1rem auto;
+}
+
+.iskra-invite-label {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.iskra-event-title {
+  font-family: "Caveat", cursive;
+  font-size: clamp(5rem, 16vw, 9rem);
+  font-weight: 700;
+  color: var(--iskra-gold);
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(232, 200, 74, 0.6);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.iskra-event-subtitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.2rem, 3.5vw, 2rem);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--iskra-purple-light);
+  margin-bottom: 2rem;
+}
+
+.iskra-event-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.iskra-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 0.5rem 1.3rem;
+}
+
+/* QUOTE */
+.iskra-quote-section {
+  background: linear-gradient(135deg, var(--iskra-dark) 0%, #4a2d8a 100%);
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.iskra-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.iskra-quote {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-style: italic;
+  font-weight: 400;
+  color: white;
+  line-height: 1.6;
+  position: relative;
+}
+
+.iskra-quote-mark {
+  font-size: 4rem;
+  color: var(--iskra-gold);
+  line-height: 0;
+  vertical-align: -0.6em;
+  font-style: normal;
+  margin: 0 0.15em;
+}
+
+/* TOPICS */
+.iskra-topics-section {
+  padding: 5rem 1rem;
+  background: var(--iskra-cream);
+}
+
+.iskra-section-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 600;
+  color: var(--iskra-dark);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.02em;
+}
+
+.iskra-topics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .iskra-topics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.iskra-topic-card {
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.iskra-topic-card:hover {
+  transform: translateY(-4px);
+}
+
+.iskra-topic-no {
+  background: linear-gradient(135deg, #f5f0ff, #ede4ff);
+  border: 1.5px solid rgba(176, 155, 220, 0.4);
+}
+
+.iskra-topic-yes {
+  background: linear-gradient(135deg, var(--iskra-gold-light), #fff3a0);
+  border: 1.5px solid rgba(232, 200, 74, 0.5);
+}
+
+.iskra-topic-icon {
+  font-size: 2rem;
+  margin-bottom: 0.8rem;
+  color: var(--iskra-purple-dark);
+}
+
+.iskra-topic-yes .iskra-topic-icon {
+  color: #b8950a;
+}
+
+.iskra-topic-heading {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--iskra-muted);
+  margin-bottom: 1rem;
+}
+
+.iskra-topic-text {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--iskra-text);
+}
+
+/* SPEAKER */
+.iskra-speaker-section {
+  background: linear-gradient(160deg, #f0eaff 0%, var(--iskra-cream) 100%);
+  padding: 5rem 1rem;
+}
+
+.iskra-speaker-card {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 40px rgba(120, 80, 180, 0.1);
+  border: 1px solid rgba(176, 155, 220, 0.25);
+}
+
+@media (max-width: 640px) {
+  .iskra-speaker-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 1.8rem 1.2rem;
+  }
+}
+
+.iskra-speaker-photo-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.iskra-speaker-photo {
+  width: 200px;
+  height: 260px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 16px;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .iskra-speaker-photo {
+    width: 160px;
+    height: 210px;
+    margin: 0 auto;
+  }
+}
+
+.iskra-speaker-photo-glow {
+  position: absolute;
+  inset: -8px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--iskra-purple), var(--iskra-gold));
+  z-index: -1;
+  opacity: 0.35;
+  filter: blur(12px);
+}
+
+.iskra-speaker-name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 600;
+  color: var(--iskra-dark);
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+}
+
+.iskra-speaker-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.iskra-speaker-list li {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--iskra-text);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+@media (max-width: 640px) {
+  .iskra-speaker-list li {
+    justify-content: center;
+  }
+}
+
+.iskra-li-dot {
+  color: var(--iskra-purple);
+  font-size: 0.7rem;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+/* CTA */
+.iskra-cta-section {
+  padding: 5rem 1rem;
+  background: linear-gradient(160deg, var(--iskra-dark), #4a2d8a);
+  text-align: center;
+}
+
+.iskra-cta-section .iskra-section-title {
+  color: white;
+}
+
+.iskra-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+@media (max-width: 540px) {
+  .iskra-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.iskra-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 14px;
+  padding: 0.9rem 1.2rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.iskra-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.iskra-btn-primary {
+  background: linear-gradient(135deg, var(--iskra-gold), #f5d84a);
+  color: var(--iskra-dark);
+  grid-column: span 2;
+  padding: 1.1rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 540px) {
+  .iskra-btn-primary {
+    grid-column: span 1;
+  }
+}
+
+.iskra-btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.iskra-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.iskra-btn-outline {
+  background: transparent;
+  color: var(--iskra-gold-light);
+  border: 1.5px solid var(--iskra-gold);
+  grid-column: span 2;
+}
+
+@media (max-width: 540px) {
+  .iskra-btn-outline {
+    grid-column: span 1;
+  }
+}
+
+/* FOOTER */
+.iskra-footer {
+  background: var(--iskra-dark);
+  color: rgba(255, 255, 255, 0.4);
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 1.2rem;
+  letter-spacing: 0.05em;
+}
