@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Женская встреча ИскРа · 4 апреля · Фуллерен</title>
+  <meta name="description" content="Приглашаем на женскую встречу ИскРа 4 апреля в 12:00. Комсомольская Набережная, 22. Центр квантовой педагогики и психологии Фуллерен."/>
+  <meta property="og:title" content="Женская встреча ИскРа · 4 апреля"/>
+  <meta property="og:description" content="Центр Фуллерен приглашает на женскую встречу. 4 апреля в 12:00, Комсомольская Набережная, 22."/>
+  <meta property="og:image" content="https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/89cdd506-e3ac-49c2-b8c7-5d38c21a08a2.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #b09bdc;
+      --purple-dark:  #7c5cbf;
+      --purple-light: #e8dfff;
+      --gold:         #e8c84a;
+      --gold-light:   #fff7c2;
+      --cream:        #fdf8f0;
+      --dark:         #2d1f4e;
+      --text:         #3d2e5e;
+      --muted:        #7a6a99;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background-image: url('https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/6dabf95d-21cc-4a45-a957-b6d0e8f1a030.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(20,10,40,.78) 0%, rgba(60,20,80,.60) 50%, rgba(20,10,40,.72) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      animation: fadeUp 1s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .badge {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      border: 1px solid rgba(232,200,74,.5);
+      border-radius: 999px;
+      padding: .4rem 1.2rem;
+      margin-bottom: 1.2rem;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(4px);
+    }
+    .center-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 300;
+      color: #fff;
+      letter-spacing: .06em;
+      margin-bottom: .5rem;
+    }
+    .fullerene { color: var(--gold); }
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1rem auto;
+    }
+    .invite-label {
+      font-size: .85rem;
+      font-weight: 500;
+      color: #fff;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: .5rem;
+      text-shadow: 0 1px 12px rgba(255,255,255,.3);
+    }
+    .logo-img {
+      width: clamp(240px, 58vw, 420px);
+      height: auto;
+      display: block;
+      margin: 0 auto .5rem;
+      filter: drop-shadow(0 0 28px rgba(232,200,74,.6)) brightness(1.05);
+    }
+    .event-details {
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      align-items: center;
+      margin-top: .5rem;
+    }
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .95rem;
+      font-weight: 500;
+      color: #fff;
+      background: rgba(255,255,255,.1);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+      padding: .5rem 1.3rem;
+    }
+    .detail-item svg { flex-shrink: 0; }
+
+    /* ── SEPARATOR ── */
+    .sep {
+      display: flex;
+      align-items: center;
+      background: var(--cream);
+      padding: .2rem 2rem;
+    }
+    .sep::before, .sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--purple), transparent);
+      opacity: .4;
+    }
+    .sep span {
+      color: var(--purple);
+      font-size: .65rem;
+      opacity: .5;
+      padding: 0 .8rem;
+    }
+
+    /* ── QUOTE ── */
+    .quote-section {
+      background: linear-gradient(160deg, #f7f3ff 0%, #ede6ff 100%);
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+    blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .qmark {
+      font-size: 3.5rem;
+      color: var(--purple);
+      line-height: 0;
+      vertical-align: -.55em;
+      font-style: normal;
+      margin: 0 .1em;
+      opacity: .6;
+    }
+
+    /* ── TOPICS ── */
+    .topics-section { padding: 5rem 1rem; background: var(--cream); }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 600;
+      color: var(--dark);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      letter-spacing: .02em;
+    }
+    .topics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .topic-card {
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .3s ease;
+    }
+    .topic-card:hover { transform: translateY(-4px); }
+    .topic-no {
+      background: linear-gradient(135deg, #f5f0ff, #ede4ff);
+      border: 1.5px solid rgba(176,155,220,.4);
+    }
+    .topic-yes {
+      background: linear-gradient(135deg, var(--gold-light), #fff3a0);
+      border: 1.5px solid rgba(232,200,74,.5);
+    }
+    .topic-icon { font-size: 2rem; margin-bottom: .8rem; color: var(--purple-dark); }
+    .topic-yes .topic-icon { color: #b8950a; }
+    .topic-heading {
+      font-size: .8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .topic-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    /* ── SPEAKER ── */
+    .speaker-section {
+      background: linear-gradient(160deg, #f0eaff 0%, var(--cream) 100%);
+      padding: 5rem 1rem;
+    }
+    .speaker-card {
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      background: #fff;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 40px rgba(120,80,180,.1);
+      border: 1px solid rgba(176,155,220,.25);
+    }
+    .speaker-photo-wrap { position: relative; flex-shrink: 0; }
+    .speaker-photo {
+      width: 200px;
+      height: 260px;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 16px;
+      display: block;
+    }
+    .speaker-glow {
+      position: absolute;
+      inset: -8px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--purple), var(--gold));
+      z-index: -1;
+      opacity: .35;
+      filter: blur(12px);
+    }
+    .speaker-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    .speaker-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .speaker-list li {
+      font-size: .9rem;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+    }
+    .li-dot { color: var(--purple); font-size: .7rem; margin-top: 3px; flex-shrink: 0; }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 5rem 1rem;
+      background: linear-gradient(160deg, #1a1030 0%, #3d2060 50%, #2a1545 100%);
+      text-align: center;
+    }
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      border-radius: 14px;
+      padding: .9rem 1.2rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform .2s ease, box-shadow .2s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), #f5d84a);
+      color: var(--dark);
+      grid-column: span 2;
+      padding: 1.1rem 1.5rem;
+      font-size: .95rem;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.25) !important;
+      backdrop-filter: blur(6px);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.2); }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold-light);
+      border: 1.5px solid var(--gold) !important;
+      grid-column: span 2;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,.4);
+      font-size: .75rem;
+      text-align: center;
+      padding: 1.2rem;
+      letter-spacing: .05em;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .topics-grid { grid-template-columns: 1fr; }
+      .speaker-card { flex-direction: column; text-align: center; gap: 1.5rem; padding: 1.8rem 1.2rem; }
+      .speaker-photo { width: 160px; height: 210px; margin: 0 auto; }
+      .speaker-list li { justify-content: center; }
+    }
+    @media (max-width: 540px) {
+      .buttons-grid { grid-template-columns: 1fr; }
+      .btn-primary, .btn-outline { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="badge">⚛ Центр квантовой педагогики и психологии</div>
+      <h1 class="center-name"><span class="fullerene">⬡</span> Фуллерен</h1>
+      <div class="divider"></div>
+      <p class="invite-label">приглашает вас на женскую встречу</p>
+      <img src="https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/89cdd506-e3ac-49c2-b8c7-5d38c21a08a2.png" alt="ИскРа" class="logo-img"/>
+      <div class="event-details">
+        <div class="detail-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>4 апреля в 12:00</span>
+        </div>
+        <div class="detail-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Комсомольская Набережная, 22</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"><span>✦</span></div>
+
+  <!-- QUOTE -->
+  <section class="quote-section">
+    <div class="container">
+      <blockquote>
+        <span class="qmark">"</span>
+        Женщина не хранительница семейного очага,<br>
+        она сама очаг
+        <span class="qmark">"</span>
+      </blockquote>
+    </div>
+  </section>
+
+  <div class="sep"><span>✦</span></div>
+
+  <!-- TOPICS -->
+  <section class="topics-section">
+    <div class="container">
+      <h3 class="section-title">О чём мы будем говорить</h3>
+      <div class="topics-grid">
+        <div class="topic-card topic-no">
+          <div class="topic-icon">✗</div>
+          <h4 class="topic-heading">Не будем говорить о том</h4>
+          <p class="topic-text">«Что женщина должна делать»</p>
+        </div>
+        <div class="topic-card topic-yes">
+          <div class="topic-icon">✦</div>
+          <h4 class="topic-heading">Поговорим о том</h4>
+          <p class="topic-text">«Как женщина может сохранять и приумножать свой ресурс привлекательности»</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"><span>✦</span></div>
+
+  <!-- SPEAKER -->
+  <section class="speaker-section">
+    <div class="container">
+      <h3 class="section-title">Спикер встречи</h3>
+      <div class="speaker-card">
+        <div class="speaker-photo-wrap">
+          <img src="https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/2e4b8932-3f51-4f75-b08c-1dffd6d4c1f7.jpg" alt="Ефремова Мария Викторовна" class="speaker-photo"/>
+          <div class="speaker-glow"></div>
+        </div>
+        <div>
+          <h4 class="speaker-name">Ефремова<br>Мария Викторовна</h4>
+          <ul class="speaker-list">
+            <li><span class="li-dot">✦</span> Многодетная мама</li>
+            <li><span class="li-dot">✦</span> Специалист квантовой психологии и педагогики</li>
+            <li><span class="li-dot">✦</span> Основатель Центра «Вдохновение»</li>
+            <li><span class="li-dot">✦</span> Соавтор и ведущая курса «ИскРа» для женщин</li>
+            <li><span class="li-dot">✦</span> Просто счастливая женщина</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"><span>✦</span></div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="buttons-grid">
+        <a href="https://t.me/spark_true" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Сообщество в ТГ
+        </a>
+        <a href="https://dzen.ru/spaceark" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Канал на Дзен
+        </a>
+        <a href="https://wa.me/79270721673" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Связаться в WhatsApp
+        </a>
+        <a href="https://www.fullerenclub.ru" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Сайт центра
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>⬡ Центр «Фуллерен» · 2025</span>
+  </footer>
+
+</body>
+</html>
