@@ -54,7 +54,7 @@ export default function VstrechaIskra() {
               <div className="iskra-topic-icon">✗</div>
               <h4 className="iskra-topic-heading">Не будем говорить о том</h4>
               <p className="iskra-topic-text">
-                «Где женщина должна искать ресурс, что она должна делать»
+                «Что женщина должна делать»
               </p>
             </div>
 
@@ -62,7 +62,7 @@ export default function VstrechaIskra() {
               <div className="iskra-topic-icon">✦</div>
               <h4 className="iskra-topic-heading">Поговорим о том</h4>
               <p className="iskra-topic-text">
-                «Что женщина <em>не должна делать</em>, чтобы сохранять себя и приумножать»
+                «Как женщина может сохранять и приумножать свой ресурс привлекательности»
               </p>
             </div>
 
@@ -100,7 +100,6 @@ export default function VstrechaIskra() {
       {/* КНОПКИ */}
       <section className="iskra-cta-section">
         <div className="iskra-container">
-          <h3 className="iskra-section-title">Присоединяйтесь</h3>
           <div className="iskra-buttons-grid">
 
             <a

@@ -207,13 +207,13 @@
 }
 
 .iskra-invite-label {
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.2rem, 3.5vw, 1.9rem);
-  font-weight: 400;
-  font-style: italic;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: white;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
   text-shadow: 0 1px 12px rgba(255, 255, 255, 0.3);
 }
 
@@ -258,7 +258,7 @@
 
 /* QUOTE */
 .iskra-quote-section {
-  background: linear-gradient(135deg, var(--iskra-dark) 0%, #4a2d8a 100%);
+  background: linear-gradient(160deg, #f7f3ff 0%, #ede6ff 100%);
   padding: 4rem 1rem;
   text-align: center;
 }
@@ -271,21 +271,22 @@
 
 .iskra-quote {
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-size: clamp(1.3rem, 3vw, 2rem);
   font-style: italic;
   font-weight: 400;
-  color: white;
-  line-height: 1.6;
+  color: var(--iskra-text);
+  line-height: 1.7;
   position: relative;
 }
 
 .iskra-quote-mark {
-  font-size: 4rem;
-  color: var(--iskra-gold);
+  font-size: 3.5rem;
+  color: var(--iskra-purple);
   line-height: 0;
-  vertical-align: -0.6em;
+  vertical-align: -0.55em;
   font-style: normal;
-  margin: 0 0.15em;
+  margin: 0 0.1em;
+  opacity: 0.6;
 }
 
 /* TOPICS */
