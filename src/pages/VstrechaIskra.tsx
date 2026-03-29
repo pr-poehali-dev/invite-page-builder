@@ -1,6 +1,6 @@
 import Icon from '@/components/ui/icon';
 
-const heroBg = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/5b668bf7-2881-4117-a0dd-00cad4826000.jpg";
+const heroBg = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/6dabf95d-21cc-4a45-a957-b6d0e8f1a030.jpg";
 const speakerPhoto = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/4578094e-a3b0-4edc-ae34-fb4ff7f44768.jpg";
 const iskraLogo = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/89cdd506-e3ac-49c2-b8c7-5d38c21a08a2.png";
 
