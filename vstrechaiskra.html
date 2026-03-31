@@ -263,6 +263,37 @@
       color: var(--text);
     }
 
+    /* ── REGISTRATION ── */
+    .reg-section {
+      background: linear-gradient(160deg, #fff8f0 0%, var(--cream) 100%);
+      padding: 5rem 1rem;
+    }
+    .reg-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      background: #fff;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 40px rgba(120,80,180,.1);
+      border: 1px solid rgba(176,155,220,.25);
+    }
+    .reg-text { display: flex; flex-direction: column; gap: .9rem; }
+    .reg-lead { font-size: 1.1rem; font-weight: 700; color: var(--purple); text-align: center; line-height: 1.5; }
+    .reg-gift { font-size: 1.15rem; font-weight: 700; color: var(--dark); text-align: center; line-height: 1.6; background: linear-gradient(135deg, #fff3cd, #ffe08a); border-radius: 12px; padding: .8rem 1rem; }
+    .reg-sub { font-size: .9rem; font-weight: 400; color: #666; }
+    .reg-item { font-size: .95rem; color: #444; line-height: 1.7; border-left: 3px solid var(--gold); padding-left: .8rem; }
+    .reg-questions { font-size: 1rem; font-weight: 700; color: var(--purple); margin-top: .5rem; }
+    .reg-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
+    .reg-list li { font-size: .9rem; color: #444; display: flex; gap: .5rem; align-items: flex-start; line-height: 1.5; }
+    .reg-btn { margin-top: .5rem; justify-content: center; }
+    .reg-image img { width: 100%; border-radius: 20px; object-fit: cover; box-shadow: 0 8px 30px rgba(0,0,0,.12); }
+    @media (max-width: 700px) {
+      .reg-layout { grid-template-columns: 1fr; }
+      .reg-image { order: -1; }
+    }
+
     /* ── SPEAKER ── */
     .speaker-section {
       background: linear-gradient(160deg, #f0eaff 0%, var(--cream) 100%);
@@ -466,6 +497,37 @@
             <li><span class="li-dot">✦</span> Соавтор и ведущая курса «ИскРа» для женщин</li>
             <li><span class="li-dot">✦</span> Просто счастливая женщина</li>
           </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"><span>✦</span></div>
+
+  <!-- Регистрация -->
+  <section class="reg-section">
+    <div class="container">
+      <h3 class="section-title">Регистрация</h3>
+      <div class="reg-layout">
+        <div class="reg-text">
+          <p class="reg-lead">Записываясь на встречу,<br>вы получаете</p>
+          <p class="reg-gift">🎁 Онлайн мини-курс в подарок<br><span class="reg-sub">(с доступом на 1 мес)</span></p>
+          <p class="reg-item">6 мини-видео уроков, которые помогут разобраться со справедливостью в своей жизни</p>
+          <p class="reg-item">А также возможность задать вопрос в личном чате специалисту по квантовой психологии и педагогике<br><strong>Ефремовой Марии Викторовны</strong></p>
+          <p class="reg-questions">Вопросы, которые рассматриваются на курсе:</p>
+          <ul class="reg-list">
+            <li><span class="li-dot">✦</span> Почему в моей жизни происходит несправедливость?</li>
+            <li><span class="li-dot">✦</span> Как перестать чувствовать себя жертвой обстоятельств?</li>
+            <li><span class="li-dot">✦</span> Как найти баланс между давать и получать?</li>
+            <li><span class="li-dot">✦</span> Как притягивать в жизнь больше хорошего?</li>
+          </ul>
+          <a href="https://rodradrost.skillspace.ru/l/attractive" target="_blank" rel="noopener noreferrer" class="btn btn-primary reg-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Записаться на встречу
+          </a>
+        </div>
+        <div class="reg-image">
+          <img src="https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/cbb6d085-8b40-4021-a9ef-8bfc7346786b.png" alt="Ресурс привлекательности" />
         </div>
       </div>
     </div>
