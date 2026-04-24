@@ -7,121 +7,85 @@ import base64
 import io
 import urllib.request
 from pptx import Presentation
-from pptx.util import Inches, Pt, Emu
+from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
-from pptx.oxml.ns import qn
-from lxml import etree
-from PIL import Image, ImageDraw, ImageFilter
-import math
+from PIL import Image, ImageDraw
 
 
 # ── Цвета ────────────────────────────────────────────────────────────────────
-DARK_BG   = RGBColor(0x0A, 0x08, 0x00)   # почти чёрный
 GOLD      = RGBColor(0xFF, 0xD7, 0x00)
 GOLD2     = RGBColor(0xFF, 0xA5, 0x00)
-GOLD3     = RGBColor(0xC8, 0x85, 0x00)
 WHITE     = RGBColor(0xFF, 0xFF, 0xFF)
 OFF_WHITE = RGBColor(0xF0, 0xE8, 0xD0)
 DARK_GOLD = RGBColor(0x3A, 0x28, 0x00)
+DEEP_DARK = RGBColor(0x06, 0x04, 0x00)
+
+# ── URL картинок ──────────────────────────────────────────────────────────────
+SPIRAL_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/4083467d-4f30-4338-bbe4-204644e9c2bf.png"
+BAZARNY_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/2b075abe-8b7b-4015-bfb3-71ee7198df9a.png"
+SHCHET_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/1589e3bb-bdc7-4e1e-9977-28bab6bc26a9.png"
+AMON_URL     = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/c70ffe39-d7ee-4e81-87cc-89864954889a.png"
+SHAT_URL     = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/8aa076ab-aa1c-43c5-b471-b901927f46f7.png"
+SOKRAT_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/c8ffe4c7-d47b-4235-b48c-7a644fc570ce.png"
+APPLE_URL    = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/05cdfdea-ae9b-40b3-8681-1e4bb6e6cbd2.png"
+TREE_URL     = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/ff7342ac-235a-4002-a51a-befd9f5c20f7.png"
+EARTH_URL    = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/7879c67d-7b9d-4ba0-aa69-1e9f4d2659f4.png"
+BORSCH_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/a66ac4ea-a927-43d4-a9fd-d3658863892c.png"
+QUANTUM_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/e045064e-c54e-4f2d-a5d9-60c9cd417c0e.jpg"
+EQUATION_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/e726d71e-7965-4cf4-971e-0c2022653dc8.png"
+CIRCLE_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/2f8895f9-2661-4dc9-9754-242172465263.png"
+TITLE_BG_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/c424ec35-26dd-4cdf-9bf2-5db02ad0373b.png"
 
 
-def download_image(url: str) -> io.BytesIO:
+def download_image(url: str, max_dim: int = 800) -> io.BytesIO:
+    """Скачивает, масштабирует и конвертирует в JPEG для уменьшения размера"""
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return io.BytesIO(r.read())
+    with urllib.request.urlopen(req, timeout=25) as r:
+        raw = io.BytesIO(r.read())
+    img = Image.open(raw)
+    if img.mode in ("RGBA", "P", "LA"):
+        bg = Image.new("RGB", img.size, (10, 8, 2))
+        if img.mode == "P":
+            img = img.convert("RGBA")
+        bg.paste(img, mask=img.split()[-1] if img.mode == "RGBA" else None)
+        img = bg
+    elif img.mode != "RGB":
+        img = img.convert("RGB")
+    w, h = img.size
+    if max(w, h) > max_dim:
+        ratio = max_dim / max(w, h)
+        img = img.resize((int(w * ratio), int(h * ratio)), Image.LANCZOS)
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG", quality=72, optimize=True)
+    buf.seek(0)
+    return buf
 
 
-def make_bg_image(width_px: int, height_px: int) -> io.BytesIO:
-    """
-    Генерирует фоновое изображение:
-    - левая половина: тёмно-чёрная с лёгкими формульными символами
-    - правая половина: золотой градиент
-    - плавное смешение по центру
-    """
-    img = Image.new("RGB", (width_px, height_px), (10, 8, 0))
+def make_photo_bg(width_px: int, height_px: int) -> io.BytesIO:
+    img = Image.new("RGB", (width_px, height_px), (8, 6, 0))
     draw = ImageDraw.Draw(img)
-
-    # Золотой градиент на правой части
-    for x in range(width_px // 2, width_px):
-        ratio = (x - width_px // 2) / (width_px // 2)
-        # от тёмного к золотому
-        r = int(10 + ratio * (180 - 10))
-        g = int(8  + ratio * (120 - 8))
-        b = int(0  + ratio * (0))
+    for y in range(height_px // 2, height_px):
+        ratio = (y - height_px // 2) / (height_px // 2)
+        r = int(8 + ratio * 60)
+        g = int(6 + ratio * 40)
+        for x in range(width_px):
+            draw.point((x, y), fill=(r, g, 0))
+    for x in range(width_px * 3 // 4, width_px):
+        ratio = (x - width_px * 3 // 4) / (width_px // 4)
+        r = int(50 * ratio)
+        g = int(30 * ratio)
         for y in range(height_px):
-            draw.point((x, y), fill=(r, g, b))
-
-    # Полупрозрачный затемнённый слой сверху и снизу (виньетка) — через чёрные полосы
-    for y in range(height_px):
-        alpha = 0
-        if y < height_px * 0.15:
-            alpha = int(120 * (1 - y / (height_px * 0.15)))
-        elif y > height_px * 0.85:
-            alpha = int(120 * ((y - height_px * 0.85) / (height_px * 0.15)))
-        if alpha > 0:
-            for x in range(width_px):
-                px = img.getpixel((x, y))
-                blended = tuple(int(c * (1 - alpha/255)) for c in px)
-                draw.point((x, y), fill=blended)
-
-    # Символы-формулы по левой части (декоративно)
-    formula_symbols = [
-        (50,  60,  "= 2"),
-        (120, 130, "∫ dx"),
-        (30,  200, "E = mc²"),
-        (180, 80,  "λ"),
-        (80,  300, "Δ = b²-4ac"),
-        (200, 250, "∑"),
-        (50,  380, "∇ψ"),
-        (150, 350, "ħ"),
-        (250, 150, "quantum"),
-        (20,  450, "φ = 1.618"),
-        (160, 430, "π"),
-        (300, 320, "∞"),
-        (90,  500, "Ω"),
-        (220, 490, "α β γ"),
-        (350, 80,  "-2/3"),
-        (320, 200, "0 · 1"),
-        (380, 400, "db"),
-        (450, 130, "v = f·λ"),
-        (430, 300, "h·ν"),
-        (480, 450, "⊕"),
-    ]
-    for (fx, fy, sym) in formula_symbols:
-        opacity_r, opacity_g, opacity_b = 60, 50, 10
-        draw.text((fx, fy), sym, fill=(opacity_r, opacity_g, opacity_b))
-
+            px = img.getpixel((x, y))
+            draw.point((x, y), fill=(min(255, px[0] + r), min(255, px[1] + g), 0))
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     buf.seek(0)
     return buf
 
 
-def make_photo_bg(width_px: int, height_px: int) -> io.BytesIO:
-    """Фон для слайдов с фотографиями: тёмный с золотым свечением снизу"""
-    img = Image.new("RGB", (width_px, height_px), (8, 6, 0))
-    draw = ImageDraw.Draw(img)
-
-    # Золотое свечение снизу
-    for y in range(height_px // 2, height_px):
-        ratio = (y - height_px // 2) / (height_px // 2)
-        r = int(8  + ratio * 60)
-        g = int(6  + ratio * 40)
-        b = 0
-        for x in range(width_px):
-            draw.point((x, y), fill=(r, g, b))
-
-    # Боковое золотое свечение справа
-    for x in range(width_px * 3 // 4, width_px):
-        ratio = (x - width_px * 3 // 4) / (width_px // 4)
-        r = int(8  + ratio * 50)
-        g = int(6  + ratio * 30)
-        b = 0
-        for y in range(height_px):
-            px = img.getpixel((x, y))
-            draw.point((x, y), fill=(min(255, px[0] + r), min(255, px[1] + g), px[2]))
-
+def make_dark_bg(width_px: int, height_px: int) -> io.BytesIO:
+    img = Image.new("RGB", (width_px, height_px), (10, 8, 2))
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     buf.seek(0)
@@ -129,20 +93,17 @@ def make_photo_bg(width_px: int, height_px: int) -> io.BytesIO:
 
 
 def set_bg_image(slide, img_buf: io.BytesIO, prs):
-    """Устанавливает картинку как фон слайда через XML"""
-    from pptx.util import Inches
+    img_buf.seek(0)
     W = prs.slide_width
     H = prs.slide_height
-    img_buf.seek(0)
     pic = slide.shapes.add_picture(img_buf, 0, 0, W, H)
-    # Отправляем на задний план
     slide.shapes._spTree.remove(pic._element)
     slide.shapes._spTree.insert(2, pic._element)
 
 
 def add_textbox(slide, text, left, top, width, height,
                 font_size=24, bold=False, color=WHITE,
-                align=PP_ALIGN.LEFT, italic=False, shadow=False):
+                align=PP_ALIGN.LEFT, italic=False):
     txBox = slide.shapes.add_textbox(left, top, width, height)
     tf = txBox.text_frame
     tf.word_wrap = True
@@ -157,28 +118,62 @@ def add_textbox(slide, text, left, top, width, height,
     return txBox
 
 
+def add_rect(slide, left, top, width, height, fill_color):
+    shape = slide.shapes.add_shape(1, left, top, width, height)
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = fill_color
+    shape.line.fill.background()
+    return shape
+
+
 def add_photo_proportional(slide, img_buf, left, top, max_w, max_h):
-    """Вставляет фото сохраняя пропорции, центрируя в заданной области"""
     img_buf.seek(0)
     pil_img = Image.open(img_buf)
     orig_w, orig_h = pil_img.size
-
-    ratio_w = max_w / orig_w
-    ratio_h = max_h / orig_h
-    ratio = min(ratio_w, ratio_h)
-
+    ratio = min(max_w / orig_w, max_h / orig_h)
     new_w = int(orig_w * ratio)
     new_h = int(orig_h * ratio)
-
     offset_x = (max_w - new_w) // 2
     offset_y = (max_h - new_h) // 2
-
     img_buf.seek(0)
     slide.shapes.add_picture(img_buf, left + offset_x, top + offset_y, new_w, new_h)
 
 
+def build_image_text_slide(slide, prs, img_raw, text,
+                            text_color=WHITE, font_size=28, bold=False, italic=False,
+                            img_right=True, bg_buf=None):
+    W = prs.slide_width
+    H = prs.slide_height
+    if bg_buf:
+        bg_buf.seek(0)
+        set_bg_image(slide, bg_buf, prs)
+    add_rect(slide, 0, 0, W, Inches(0.45), DARK_GOLD)
+    half = W // 2
+    if img_right:
+        add_textbox(slide, text,
+                    Inches(0.5), Inches(0.9), half - Inches(0.6), H - Inches(1.5),
+                    font_size=font_size, bold=bold, italic=italic,
+                    color=text_color, align=PP_ALIGN.LEFT)
+        if img_raw:
+            img_raw.seek(0)
+            add_photo_proportional(slide, img_raw,
+                                   half + Inches(0.2), Inches(0.55),
+                                   half - Inches(0.4), H - Inches(0.7))
+    else:
+        if img_raw:
+            img_raw.seek(0)
+            add_photo_proportional(slide, img_raw,
+                                   Inches(0.2), Inches(0.55),
+                                   half - Inches(0.4), H - Inches(0.7))
+        add_textbox(slide, text,
+                    half + Inches(0.3), Inches(0.9), half - Inches(0.6), H - Inches(1.5),
+                    font_size=font_size, bold=bold, italic=italic,
+                    color=text_color, align=PP_ALIGN.LEFT)
+    add_rect(slide, 0, H - Inches(0.35), W, Inches(0.35), DARK_GOLD)
+
+
 def handler(event: dict, context) -> dict:
-    """Генерирует PPTX-презентацию о квантовой педагогике (золотой стиль) и возвращает base64"""
+    """Генерирует PPTX-презентацию о квантовой педагогике (золотой стиль, 16 слайдов)"""
 
     if event.get("httpMethod") == "OPTIONS":
         return {
@@ -196,30 +191,33 @@ def handler(event: dict, context) -> dict:
     prs.slide_width  = Inches(13.33)
     prs.slide_height = Inches(7.5)
     blank = prs.slide_layouts[6]
-
     W = prs.slide_width
     H = prs.slide_height
 
-    # px размер для генерации фона (1333×750 → уменьшим в 4x для скорости)
-    BG_W, BG_H = 1333, 750
+    def safe_dl(url):
+        try:
+            return download_image(url)
+        except:
+            return None
 
-    SPIRAL_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/4083467d-4f30-4338-bbe4-204644e9c2bf.png"
-    BAZARNY_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/2b075abe-8b7b-4015-bfb3-71ee7198df9a.png"
-    SHCHET_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/1589e3bb-bdc7-4e1e-9977-28bab6bc26a9.png"
-    AMON_URL     = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/c70ffe39-d7ee-4e81-87cc-89864954889a.png"
-    SHAT_URL     = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/8aa076ab-aa1c-43c5-b471-b901927f46f7.png"
+    # Скачиваем все картинки
+    title_bg_raw = safe_dl(TITLE_BG_URL)
+    spiral_raw   = safe_dl(SPIRAL_URL)
+    bazarny_raw  = safe_dl(BAZARNY_URL)
+    shchet_raw   = safe_dl(SHCHET_URL)
+    amon_raw     = safe_dl(AMON_URL)
+    shat_raw     = safe_dl(SHAT_URL)
+    sokrat_raw   = safe_dl(SOKRAT_URL)
+    apple_raw    = safe_dl(APPLE_URL)
+    tree_raw     = safe_dl(TREE_URL)
+    earth_raw    = safe_dl(EARTH_URL)
+    borsch_raw   = safe_dl(BORSCH_URL)
+    quantum_raw  = safe_dl(QUANTUM_URL)
+    equation_raw = safe_dl(EQUATION_URL)
+    circle_raw   = safe_dl(CIRCLE_URL)
 
-    # Скачиваем фото заранее
-    try: bazarny_raw = download_image(BAZARNY_URL)
-    except: bazarny_raw = None
-    try: shchet_raw  = download_image(SHCHET_URL)
-    except: shchet_raw = None
-    try: amon_raw    = download_image(AMON_URL)
-    except: amon_raw = None
-    try: shat_raw    = download_image(SHAT_URL)
-    except: shat_raw = None
-    try: spiral_raw  = download_image(SPIRAL_URL)
-    except: spiral_raw = None
+    bg_photo = make_photo_bg(1333, 750)
+    bg_dark  = make_dark_bg(1333, 750)
 
     photos_3 = [
         (shchet_raw,  "Михаил Петрович\nЩетинин"),
@@ -227,140 +225,206 @@ def handler(event: dict, context) -> dict:
         (shat_raw,    "Виктор Фёдорович\nШаталов"),
     ]
 
-    # ── Фоны ────────────────────────────────────────────────────────────────
-    bg_title = make_bg_image(BG_W, BG_H)
-    bg_photo = make_photo_bg(BG_W, BG_H)
-
-    # ===== СЛАЙД 1 — титульный =====
+    # ── СЛАЙД 1: Титульный по образцу ────────────────────────────────────────
     s1 = prs.slides.add_slide(blank)
-    bg_title.seek(0)
-    set_bg_image(s1, bg_title, prs)
+    if title_bg_raw:
+        title_bg_raw.seek(0)
+        set_bg_image(s1, title_bg_raw, prs)
 
-    # Большой белый заголовок слева (как на образце)
-    add_textbox(s1, "КВАНТОВАЯ\nПЕДАГОГИКА",
-                Inches(0.6), Inches(1.0), Inches(6.5), Inches(4.0),
-                font_size=60, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
+    add_textbox(s1, "Педагогика\nбудущего и\nквантовый\nподход в\nобразовании",
+                Inches(0.5), Inches(0.5), Inches(6.2), Inches(5.8),
+                font_size=52, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
 
-    # Подзаголовок слева
-    add_textbox(s1, 'Центр квантовой педагогики и психологии',
-                Inches(0.6), Inches(5.2), Inches(6.5), Inches(0.7),
-                font_size=20, bold=False, color=OFF_WHITE, align=PP_ALIGN.LEFT)
-
-    # Спираль справа по центру
     if spiral_raw:
         spiral_raw.seek(0)
-        s1.shapes.add_picture(spiral_raw, Inches(8.8), Inches(1.8), Inches(2.8), Inches(2.8))
+        s1.shapes.add_picture(spiral_raw, Inches(8.6), Inches(1.5), Inches(2.8), Inches(2.8))
 
-    # Название центра справа снизу
+    add_rect(s1, Inches(7.2), Inches(4.5), Inches(5.8), Inches(2.8), DEEP_DARK)
     add_textbox(s1, "СОЗНАНИЕ ФУЛЛЕРЕНА",
-                Inches(7.5), Inches(4.9), Inches(5.5), Inches(0.6),
-                font_size=22, bold=True, color=GOLD, align=PP_ALIGN.CENTER)
-    add_textbox(s1, "Центр квантовой педагогики и психологии",
-                Inches(7.5), Inches(5.5), Inches(5.5), Inches(0.5),
+                Inches(7.4), Inches(4.7), Inches(5.5), Inches(0.65),
+                font_size=24, bold=True, color=GOLD, align=PP_ALIGN.CENTER)
+    add_textbox(s1, "РОДИТЕЛЬСКИЙ КЛУБ",
+                Inches(7.4), Inches(5.35), Inches(5.5), Inches(0.45),
                 font_size=13, bold=False, color=OFF_WHITE, align=PP_ALIGN.CENTER)
+    add_textbox(s1, "FULLERENCLUB.RU",
+                Inches(7.4), Inches(5.9), Inches(5.5), Inches(0.55),
+                font_size=20, bold=True, color=GOLD2, align=PP_ALIGN.CENTER)
+    add_rect(s1, 0, H - Inches(0.28), W, Inches(0.28), DARK_GOLD)
 
-    # Горизонтальная золотая линия
-    from pptx.util import Pt as PtU
-    line = s1.shapes.add_shape(
-        1,  # MSO_SHAPE_TYPE.LINE — используем rectangle как разделитель
-        Inches(0.6), Inches(6.5), Inches(12.0), Inches(0.03)
-    )
-    line.fill.solid()
-    line.fill.fore_color.rgb = GOLD
-    line.line.fill.background()
-
-    # ===== СЛАЙД 2 — Базарный =====
+    # ── СЛАЙД 2: Базарный ────────────────────────────────────────────────────
     s2 = prs.slides.add_slide(blank)
     bg_photo.seek(0)
     set_bg_image(s2, bg_photo, prs)
-
-    # Золотая полоса сверху
-    top_bar = s2.shapes.add_shape(1, 0, 0, W, Inches(0.55))
-    top_bar.fill.solid()
-    top_bar.fill.fore_color.rgb = DARK_GOLD
-    top_bar.line.fill.background()
-
+    add_rect(s2, 0, 0, W, Inches(0.55), DARK_GOLD)
     add_textbox(s2, "Владимир Филиппович Базарный",
                 Inches(0.4), Inches(0.05), W - Inches(0.8), Inches(0.45),
                 font_size=26, bold=True, color=GOLD, align=PP_ALIGN.LEFT)
-
     if bazarny_raw:
         bazarny_raw.seek(0)
-        add_photo_proportional(s2, bazarny_raw,
-                               left=Inches(3.5), top=Inches(0.7),
-                               max_w=Inches(6.5), max_h=Inches(6.2))
+        add_photo_proportional(s2, bazarny_raw, Inches(3.5), Inches(0.7), Inches(6.5), Inches(6.2))
+    add_rect(s2, 0, H - Inches(0.5), W, Inches(0.5), DARK_GOLD)
 
-    # Нижняя золотая полоса
-    bot_bar = s2.shapes.add_shape(1, 0, H - Inches(0.5), W, Inches(0.5))
-    bot_bar.fill.solid()
-    bot_bar.fill.fore_color.rgb = DARK_GOLD
-    bot_bar.line.fill.background()
-
-    # ===== Вспомогательная функция для слайдов 3-5 =====
-    def build_three_photo_slide(slide_obj, bottom_text, bottom_italic=False):
+    # ── Вспомогательная: три фото ─────────────────────────────────────────────
+    def build_three(slide_obj, bottom_text, bottom_italic=False, text_color=WHITE):
         bg_photo.seek(0)
         set_bg_image(slide_obj, bg_photo, prs)
-
-        top_bar2 = slide_obj.shapes.add_shape(1, 0, 0, W, Inches(0.45))
-        top_bar2.fill.solid()
-        top_bar2.fill.fore_color.rgb = DARK_GOLD
-        top_bar2.line.fill.background()
-
+        add_rect(slide_obj, 0, 0, W, Inches(0.45), DARK_GOLD)
         photo_max_w = Inches(3.9)
         photo_max_h = Inches(4.2)
-        total_photos_w = photo_max_w * 3
-        gap = (W - total_photos_w) // 4
-
+        gap = (W - photo_max_w * 3) // 4
         for i, (raw, name) in enumerate(photos_3):
             left = gap + i * (photo_max_w + gap)
             if raw:
                 raw.seek(0)
-                add_photo_proportional(slide_obj, raw,
-                                       left=left, top=Inches(0.55),
-                                       max_w=photo_max_w, max_h=photo_max_h)
-            # Подпись под фото
-            add_textbox(slide_obj, name,
-                        left, Inches(4.85), photo_max_w, Inches(0.75),
+                add_photo_proportional(slide_obj, raw, left, Inches(0.55), photo_max_w, photo_max_h)
+            add_textbox(slide_obj, name, left, Inches(4.85), photo_max_w, Inches(0.75),
                         font_size=14, bold=True, color=GOLD, align=PP_ALIGN.CENTER)
-
-        # Нижняя золотая полоса с текстом
-        bot_bar2 = slide_obj.shapes.add_shape(1, 0, H - Inches(1.5), W, Inches(1.5))
-        bot_bar2.fill.solid()
-        bot_bar2.fill.fore_color.rgb = DARK_GOLD
-        bot_bar2.line.fill.background()
-
+        bar_h = Inches(1.5)
+        add_rect(slide_obj, 0, H - bar_h, W, bar_h, DARK_GOLD)
         add_textbox(slide_obj, bottom_text,
-                    Inches(0.5), H - Inches(1.45), W - Inches(1), Inches(1.4),
-                    font_size=26, bold=not bottom_italic, italic=bottom_italic,
-                    color=WHITE, align=PP_ALIGN.CENTER)
+                    Inches(0.5), H - bar_h + Inches(0.1), W - Inches(1), bar_h - Inches(0.15),
+                    font_size=24, bold=not bottom_italic, italic=bottom_italic,
+                    color=text_color, align=PP_ALIGN.CENTER)
 
-    # ===== СЛАЙД 3 =====
+    # ── СЛАЙДЫ 3-5 ───────────────────────────────────────────────────────────
     s3 = prs.slides.add_slide(blank)
-    build_three_photo_slide(
-        s3,
-        '"Почему мы не можем с таким же успехом\nповторить опыт этих личностей?"',
-        bottom_italic=True
-    )
+    build_three(s3,
+        '"Почему мы не можем с таким же успехом повторить опыт этих личностей?"',
+        bottom_italic=True)
 
-    # ===== СЛАЙД 4 =====
     s4 = prs.slides.add_slide(blank)
-    build_three_photo_slide(s4, "Учит не методика этих людей")
+    build_three(s4, "Учит не методика этих людей", text_color=OFF_WHITE)
 
-    # ===== СЛАЙД 5 =====
     s5 = prs.slides.add_slide(blank)
-    build_three_photo_slide(s5, "Сама ЛИЧНОСТЬ преОБРАЗует пространство")
+    build_three(s5, "Сама ЛИЧНОСТЬ преОБРАЗует пространство", text_color=GOLD)
 
-    # Финальный акцент на слайде 5 — цвет текста золотой
-    # (переопределяем последний textbox)
-    last_shapes = s5.shapes
-    for shape in last_shapes:
-        if shape.has_text_frame:
-            for para in shape.text_frame.paragraphs:
-                for run in para.runs:
-                    if "ЛИЧНОСТЬ" in run.text or "преОБРАЗует" in run.text:
-                        run.font.color.rgb = GOLD
+    # ── СЛАЙД 6: Сократ + вопрос ─────────────────────────────────────────────
+    s6 = prs.slides.add_slide(blank)
+    bg_dark.seek(0)
+    build_image_text_slide(s6, prs, sokrat_raw,
+        "Где найти такого учителя,\nкоторый своим состоянием\n«Вдохновения»\nменяет пространство?",
+        text_color=WHITE, font_size=28, bold=False, italic=True,
+        img_right=False, bg_buf=bg_dark)
 
-    # ── Сохраняем ───────────────────────────────────────────────────────────
+    # ── СЛАЙД 7: Сократ + ответ ───────────────────────────────────────────────
+    s7 = prs.slides.add_slide(blank)
+    bg_dark.seek(0)
+    build_image_text_slide(s7, prs, sokrat_raw,
+        "Готов ученик —\nпридёт и учитель",
+        text_color=GOLD, font_size=38, bold=True,
+        img_right=False, bg_buf=bg_dark)
+
+    # ── СЛАЙД 8: Яблоко + вопросы ─────────────────────────────────────────────
+    s8 = prs.slides.add_slide(blank)
+    bg_dark.seek(0)
+    build_image_text_slide(s8, prs, apple_raw,
+        "Кто ученик?\n\nКак подготовить ученика,\nчтобы к нему пришёл учитель?",
+        text_color=WHITE, font_size=27, bold=False, italic=True,
+        img_right=True, bg_buf=bg_dark)
+
+    # ── СЛАЙД 9: Дерево с яблоком ────────────────────────────────────────────
+    s9 = prs.slides.add_slide(blank)
+    bg_dark.seek(0)
+    build_image_text_slide(s9, prs, tree_raw,
+        "Плод зависит от\nСОСТОЯНИЯ дерева",
+        text_color=GOLD, font_size=36, bold=True,
+        img_right=True, bg_buf=bg_dark)
+
+    # ── СЛАЙД 10: Дерево с землёй ─────────────────────────────────────────────
+    s10 = prs.slides.add_slide(blank)
+    bg_dark.seek(0)
+    build_image_text_slide(s10, prs, earth_raw,
+        "Дерево зависит от\nСОСТОЯНИЯ почвы",
+        text_color=GOLD, font_size=36, bold=True,
+        img_right=True, bg_buf=bg_dark)
+
+    # ── СЛАЙД 11: Борщ ────────────────────────────────────────────────────────
+    s11 = prs.slides.add_slide(blank)
+    bg_dark.seek(0)
+    build_image_text_slide(s11, prs, borsch_raw,
+        "слагаемые\nне меняются местами",
+        text_color=WHITE, font_size=34, bold=True,
+        img_right=False, bg_buf=bg_dark)
+
+    # ── СЛАЙД 12: Дерево с землёй + длинный текст ────────────────────────────
+    s12 = prs.slides.add_slide(blank)
+    bg_dark.seek(0)
+    build_image_text_slide(s12, prs, earth_raw,
+        "Важна последовательность:\nсначала СОСТОЯНИЕ мамы,\nпотом СОСТОЯНИЕ папы,\nа затем преОБРАЗование плода",
+        text_color=OFF_WHITE, font_size=25, bold=False,
+        img_right=False, bg_buf=bg_dark)
+
+    # ── СЛАЙДЫ 13-15: Квантовая запутанность ─────────────────────────────────
+    bar_h = Inches(1.7)
+
+    s13 = prs.slides.add_slide(blank)
+    if quantum_raw:
+        quantum_raw.seek(0)
+        set_bg_image(s13, quantum_raw, prs)
+    add_rect(s13, 0, H - bar_h, W, bar_h, DARK_GOLD)
+    add_textbox(s13,
+        "Переход от ОБРАЗования, как подлежащего,\nк ОБРАЗованию, как СКАЗУЕМОГО",
+        Inches(0.5), H - bar_h + Inches(0.1), W - Inches(1), bar_h - Inches(0.15),
+        font_size=28, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+    s14 = prs.slides.add_slide(blank)
+    if quantum_raw:
+        quantum_raw.seek(0)
+        set_bg_image(s14, quantum_raw, prs)
+    add_rect(s14, 0, H - bar_h, W, bar_h, DARK_GOLD)
+    add_textbox(s14,
+        "Только изменения самого СОСТОЯНИЯ родителя\nсможет преОБРАЗовать готовность ребёнка к обучению",
+        Inches(0.5), H - bar_h + Inches(0.1), W - Inches(1), bar_h - Inches(0.15),
+        font_size=26, bold=True, color=GOLD, align=PP_ALIGN.CENTER)
+
+    s15 = prs.slides.add_slide(blank)
+    if quantum_raw:
+        quantum_raw.seek(0)
+        set_bg_image(s15, quantum_raw, prs)
+    add_rect(s15, 0, H - Inches(1.3), W, Inches(1.3), DARK_GOLD)
+    add_textbox(s15,
+        "закон квантовой запутанности",
+        Inches(0.5), H - Inches(1.25), W - Inches(1), Inches(1.2),
+        font_size=36, bold=True, color=GOLD, align=PP_ALIGN.CENTER)
+
+    # ── СЛАЙД 16: Уравнения + Круг + мотивация ───────────────────────────────
+    s16 = prs.slides.add_slide(blank)
+    if equation_raw:
+        equation_raw.seek(0)
+        set_bg_image(s16, equation_raw, prs)
+
+    # Тёмная подложка слева
+    add_rect(s16, 0, 0, Inches(6.6), H, RGBColor(0x05, 0x08, 0x18))
+    add_rect(s16, 0, 0, Inches(6.6), Inches(0.55), DARK_GOLD)
+    add_textbox(s16, "Мотивация",
+                Inches(0.3), Inches(0.06), Inches(6.1), Inches(0.45),
+                font_size=22, bold=True, color=GOLD, align=PP_ALIGN.LEFT)
+
+    add_textbox(s16, "Внешняя мотивация:",
+                Inches(0.3), Inches(0.7), Inches(6.0), Inches(0.5),
+                font_size=20, bold=True, color=GOLD2, align=PP_ALIGN.LEFT)
+    add_textbox(s16,
+        "— сдать гос. аттестацию;\n— поступить в Университет;\n— найти хорошую работу;\n— приносить пользу.",
+        Inches(0.3), Inches(1.25), Inches(6.0), Inches(2.0),
+        font_size=17, bold=False, color=OFF_WHITE, align=PP_ALIGN.LEFT)
+
+    add_textbox(s16, "Внутренняя мотивация:",
+                Inches(0.3), Inches(3.4), Inches(6.0), Inches(0.5),
+                font_size=20, bold=True, color=GOLD, align=PP_ALIGN.LEFT)
+    add_textbox(s16,
+        "— нужно ли мне разобраться со справедливостью в своей жизни?\n— как уравнения мне помогут это сделать?",
+        Inches(0.3), Inches(3.95), Inches(6.0), Inches(2.2),
+        font_size=17, bold=False, color=OFF_WHITE, align=PP_ALIGN.LEFT)
+
+    add_rect(s16, 0, H - Inches(0.35), W, Inches(0.35), DARK_GOLD)
+
+    # Круг справа снизу
+    if circle_raw:
+        circle_raw.seek(0)
+        add_photo_proportional(s16, circle_raw,
+                               Inches(9.0), Inches(3.2), Inches(4.0), Inches(3.8))
+
+    # ── Сохраняем ────────────────────────────────────────────────────────────
     output = io.BytesIO()
     prs.save(output)
     output.seek(0)
