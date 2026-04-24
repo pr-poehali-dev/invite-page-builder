@@ -35,7 +35,7 @@ BORSCH_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c454
 QUANTUM_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/e045064e-c54e-4f2d-a5d9-60c9cd417c0e.jpg"
 EQUATION_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/e726d71e-7965-4cf4-971e-0c2022653dc8.png"
 CIRCLE_URL   = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/2f8895f9-2661-4dc9-9754-242172465263.png"
-TITLE_BG_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/c424ec35-26dd-4cdf-9bf2-5db02ad0373b.png"
+TITLE_BG_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/fa0cedf0-1410-4c4e-9166-7d741ba6be9a.png"
 
 
 def download_image(url: str, max_dim: int = 800) -> io.BytesIO:
@@ -225,31 +225,11 @@ def handler(event: dict, context) -> dict:
         (shat_raw,    "Виктор Фёдорович\nШаталов"),
     ]
 
-    # ── СЛАЙД 1: Титульный по образцу ────────────────────────────────────────
+    # ── СЛАЙД 1: Титульный — просто картинка на весь слайд ───────────────────
     s1 = prs.slides.add_slide(blank)
     if title_bg_raw:
         title_bg_raw.seek(0)
         set_bg_image(s1, title_bg_raw, prs)
-
-    add_textbox(s1, "Педагогика\nбудущего и\nквантовый\nподход в\nобразовании",
-                Inches(0.5), Inches(0.5), Inches(6.2), Inches(5.8),
-                font_size=52, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
-
-    if spiral_raw:
-        spiral_raw.seek(0)
-        s1.shapes.add_picture(spiral_raw, Inches(8.6), Inches(1.5), Inches(2.8), Inches(2.8))
-
-    add_rect(s1, Inches(7.2), Inches(4.5), Inches(5.8), Inches(2.8), DEEP_DARK)
-    add_textbox(s1, "СОЗНАНИЕ ФУЛЛЕРЕНА",
-                Inches(7.4), Inches(4.7), Inches(5.5), Inches(0.65),
-                font_size=24, bold=True, color=GOLD, align=PP_ALIGN.CENTER)
-    add_textbox(s1, "РОДИТЕЛЬСКИЙ КЛУБ",
-                Inches(7.4), Inches(5.35), Inches(5.5), Inches(0.45),
-                font_size=13, bold=False, color=OFF_WHITE, align=PP_ALIGN.CENTER)
-    add_textbox(s1, "FULLERENCLUB.RU",
-                Inches(7.4), Inches(5.9), Inches(5.5), Inches(0.55),
-                font_size=20, bold=True, color=GOLD2, align=PP_ALIGN.CENTER)
-    add_rect(s1, 0, H - Inches(0.28), W, Inches(0.28), DARK_GOLD)
 
     # ── СЛАЙД 2: Базарный ────────────────────────────────────────────────────
     s2 = prs.slides.add_slide(blank)
@@ -418,11 +398,7 @@ def handler(event: dict, context) -> dict:
 
     add_rect(s16, 0, H - Inches(0.35), W, Inches(0.35), DARK_GOLD)
 
-    # Круг справа снизу
-    if circle_raw:
-        circle_raw.seek(0)
-        add_photo_proportional(s16, circle_raw,
-                               Inches(9.0), Inches(3.2), Inches(4.0), Inches(3.8))
+
 
     # ── Сохраняем ────────────────────────────────────────────────────────────
     output = io.BytesIO()
