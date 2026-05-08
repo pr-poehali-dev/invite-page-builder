@@ -1,6 +1,7 @@
 """
 Генерация PPTX-презентации 'Техника экологичного выставления границ'
-в стиле Фуллерен: светлый серый фон, чёрный serif-шрифт, картинки пионов.
+в природном зелёно-бежевом стиле. Слайды 2-5 — пионы без изменений.
+Остальные слайды — бежевый фон, зелёный текст, декоративные элементы.
 Возвращает файл в base64 для скачивания.
 """
 
@@ -11,40 +12,28 @@ from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
-from PIL import Image
+from pptx.util import Inches, Pt
+from PIL import Image, ImageDraw
 
 
-BLACK     = RGBColor(0x1A, 0x17, 0x14)
-LIGHT_BG  = RGBColor(0xEB, 0xEB, 0xEB)
-ORANGE    = RGBColor(0xC8, 0x6A, 0x1A)
+DARK_GREEN   = RGBColor(0x2D, 0x50, 0x16)
+MID_GREEN    = RGBColor(0x4A, 0x7C, 0x2F)
+LIGHT_GREEN  = RGBColor(0x6B, 0x9E, 0x3A)
+BEIGE_BG     = RGBColor(0xF5, 0xF0, 0xE8)
+WARM_BEIGE   = RGBColor(0xE8, 0xDF, 0xC8)
+DARK_BROWN   = RGBColor(0x3D, 0x2B, 0x1F)
+RED_ACCENT   = RGBColor(0xCC, 0x22, 0x22)
+WHITE        = RGBColor(0xFF, 0xFF, 0xFF)
 
-SLIDE1_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/29d08a49-613a-4d33-8137-21a389ad93de.jpg"
-SLIDE2_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/01d2305b-665f-4ebd-8bb7-319ae91c8478.jpg"
-SLIDE3_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/51bfdabb-136e-4fa8-a103-c68df682d5f6.jpg"
-SLIDE4_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/865d9958-544a-4eb6-a35b-d4a510138d0e.jpg"
-SLIDE5_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/a7d3de70-0616-42db-8c1c-e0676af936dd.jpg"
 LOGO_URL    = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/29d08a49-613a-4d33-8137-21a389ad93de.jpg"
 
-SLIDE6_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/3de004e6-28d6-4ed4-8589-9189189d74d2.jpg"
-SLIDE7_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/9e0ba4c7-ce81-4fc9-83e3-6c407afc0baf.jpg"
-SLIDE8_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/815dddbc-f473-4a80-bfb3-98b99c1e176c.jpg"
-SLIDE9_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/b7c290fb-7264-4bb8-a1ab-517664b763b9.jpg"
-SLIDE10_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/7026859a-cf33-4ce7-b1bf-efcca21cbfe8.jpg"
-SLIDE11_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/40618ec4-5ca0-47cd-9574-5014aae8e31b.jpg"
-SLIDE12_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/f9a5125d-39f7-49e4-a615-c812cab487c4.jpg"
-SLIDE13_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/ac33b6fc-0179-4405-8115-c0977a5f0585.jpg"
-SLIDE14_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/d053f5dc-f4de-45e4-acbe-93f27f9fa685.jpg"
-SLIDE15_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/55a41459-daa7-4807-888e-01e431cc5ff3.jpg"
-SLIDE16_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/81180375-d2f7-4702-94ba-9e1158282cee.jpg"
-SLIDE17_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/c0adf201-961e-43f8-a3ed-7e7f3c76aa4d.jpg"
-SLIDE18_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/d96f1c30-a985-406e-90a3-fa07d0d24f65.jpg"
-SLIDE19_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/f9dd08ee-b85d-4fa3-be7f-e9970371184a.jpg"
-SLIDE20_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/8247f3eb-be58-4e85-b7a1-d9c2b0706875.jpg"
-
-RED = RGBColor(0xCC, 0x00, 0x00)
+SLIDE2_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/00ee0148-ebfd-4675-84b3-d75532822211.jpg"
+SLIDE3_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/61853eaf-fd3f-4c91-9f7a-f258abeee6ec.jpg"
+SLIDE4_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/7110ae58-7bd6-4ecf-a2dc-23612fc7facd.jpg"
+SLIDE5_URL  = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/208ebcf1-8745-4efd-99cc-633c2014858d.jpg"
 
 
-def download_image_as_jpg(url: str, max_dim: int = 1920, bg_color=(235, 235, 235)) -> io.BytesIO:
+def download_image_as_jpg(url: str, max_dim: int = 1920, bg_color=(245, 240, 232)) -> io.BytesIO:
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=25) as r:
         raw = io.BytesIO(r.read())
@@ -68,59 +57,52 @@ def download_image_as_jpg(url: str, max_dim: int = 1920, bg_color=(235, 235, 235
     return buf
 
 
-def make_light_bg(width_px: int, height_px: int) -> io.BytesIO:
-    img = Image.new("RGB", (width_px, height_px), (235, 235, 235))
+def make_beige_bg(width_px: int = 1920, height_px: int = 1080) -> io.BytesIO:
+    img = Image.new("RGB", (width_px, height_px), (245, 240, 232))
+    draw = ImageDraw.Draw(img)
+    # Зелёная полоска сверху
+    draw.rectangle([0, 0, width_px, 18], fill=(74, 124, 47))
+    # Зелёная полоска снизу
+    draw.rectangle([0, height_px - 18, width_px, height_px], fill=(74, 124, 47))
+    # Тонкая линия под верхней полоской
+    draw.rectangle([0, 18, width_px, 24], fill=(107, 158, 58))
+    # Тонкая линия над нижней полоской
+    draw.rectangle([0, height_px - 24, width_px, height_px - 18], fill=(107, 158, 58))
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     buf.seek(0)
     return buf
 
 
-def set_bg_image(slide, img_buf: io.BytesIO, prs):
+def make_title_bg(width_px: int = 1920, height_px: int = 1080) -> io.BytesIO:
+    """Фон для титульного слайда — бежевый с зелёным боковым акцентом"""
+    img = Image.new("RGB", (width_px, height_px), (245, 240, 232))
+    draw = ImageDraw.Draw(img)
+    # Левая зелёная полоса
+    draw.rectangle([0, 0, 12, height_px], fill=(45, 80, 22))
+    draw.rectangle([12, 0, 22, height_px], fill=(74, 124, 47))
+    # Правая зелёная полоса
+    draw.rectangle([width_px - 22, 0, width_px - 12, height_px], fill=(74, 124, 47))
+    draw.rectangle([width_px - 12, 0, width_px, height_px], fill=(45, 80, 22))
+    # Верхняя полоска
+    draw.rectangle([0, 0, width_px, 10], fill=(45, 80, 22))
+    # Нижняя полоска
+    draw.rectangle([0, height_px - 10, width_px, height_px], fill=(45, 80, 22))
+    # Декоративный прямоугольник в центре внизу (бежевый тёплый)
+    draw.rectangle([22, height_px - 160, width_px - 22, height_px - 10], fill=(232, 223, 200))
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    return buf
+
+
+def set_bg(slide, img_buf: io.BytesIO, prs):
     img_buf.seek(0)
     W = prs.slide_width
     H = prs.slide_height
     pic = slide.shapes.add_picture(img_buf, 0, 0, W, H)
     slide.shapes._spTree.remove(pic._element)
     slide.shapes._spTree.insert(2, pic._element)
-
-
-def add_textbox(slide, text, left, top, width, height,
-                font_size=32, bold=False, color=BLACK,
-                align=PP_ALIGN.CENTER, italic=False, font_name="Times New Roman"):
-    txBox = slide.shapes.add_textbox(left, top, width, height)
-    tf = txBox.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.alignment = align
-    run = p.add_run()
-    run.text = text
-    run.font.size = Pt(font_size)
-    run.font.bold = bold
-    run.font.italic = italic
-    run.font.color.rgb = color
-    run.font.name = font_name
-    return txBox
-
-
-def add_multiline_textbox(slide, lines, left, top, width, height,
-                           font_sizes, bolds, colors, aligns,
-                           font_name="Times New Roman"):
-    txBox = slide.shapes.add_textbox(left, top, width, height)
-    tf = txBox.text_frame
-    tf.word_wrap = True
-    for i, line in enumerate(lines):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.alignment = aligns[i] if i < len(aligns) else PP_ALIGN.CENTER
-        run = p.add_run()
-        run.text = line
-        run.font.size = Pt(font_sizes[i] if i < len(font_sizes) else 32)
-        run.font.bold = bolds[i] if i < len(bolds) else False
-        run.font.color.rgb = colors[i] if i < len(colors) else BLACK
-        run.font.name = font_name
-        if i > 0:
-            p.space_before = Pt(10)
-    return txBox
 
 
 def add_full_image_slide(prs, slide, url):
@@ -144,8 +126,46 @@ def add_full_image_slide(prs, slide, url):
         pass
 
 
+def add_text(slide, text, left, top, width, height,
+             font_size=40, bold=False, color=DARK_GREEN,
+             align=PP_ALIGN.CENTER, italic=False):
+    txBox = slide.shapes.add_textbox(left, top, width, height)
+    tf = txBox.text_frame
+    tf.word_wrap = True
+    p = tf.paragraphs[0]
+    p.alignment = align
+    run = p.add_run()
+    run.text = text
+    run.font.size = Pt(font_size)
+    run.font.bold = bold
+    run.font.italic = italic
+    run.font.color.rgb = color
+    run.font.name = "Georgia"
+    return txBox
+
+
+def add_multiline(slide, lines, left, top, width, height,
+                  font_sizes, bolds, colors, aligns, space_before_pts=None):
+    txBox = slide.shapes.add_textbox(left, top, width, height)
+    tf = txBox.text_frame
+    tf.word_wrap = True
+    for i, line in enumerate(lines):
+        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+        p.alignment = aligns[i] if i < len(aligns) else PP_ALIGN.CENTER
+        run = p.add_run()
+        run.text = line
+        run.font.size = Pt(font_sizes[i] if i < len(font_sizes) else 40)
+        run.font.bold = bolds[i] if i < len(bolds) else False
+        run.font.color.rgb = colors[i] if i < len(colors) else DARK_GREEN
+        run.font.name = "Georgia"
+        if i > 0:
+            sp = space_before_pts[i] if space_before_pts and i < len(space_before_pts) else 14
+            p.space_before = Pt(sp)
+    return txBox
+
+
 def handler(event: dict, context) -> dict:
-    """Генерирует PPTX-презентацию 'Техника экологичного выставления границ' в стиле Фуллерен"""
+    """Генерирует PPTX-презентацию 'Техника экологичного выставления границ' в природном зелёно-бежевом стиле"""
 
     if event.get("httpMethod") == "OPTIONS":
         return {
@@ -166,35 +186,103 @@ def handler(event: dict, context) -> dict:
     W = prs.slide_width
     H = prs.slide_height
 
-    def safe_dl(url):
-        try:
-            return download_image_as_jpg(url)
-        except Exception:
-            return None
-
-    def light_bg():
-        return make_light_bg(1920, 1080)
-
-    # ── Слайд 1: Титульный (полная картинка слайд1 как фон) ─────────────────
+    # ── Слайд 1: Титульный ───────────────────────────────────────────────────
     slide1 = prs.slides.add_slide(blank)
-    add_full_image_slide(prs, slide1, SLIDE1_URL)
+    set_bg(slide1, make_title_bg(), prs)
 
-    # ── Слайды 2-5: Картинки пионов (полноэкранные) ──────────────────────────
+    # Заголовок
+    add_text(slide1, "Техника экологичного\nвыставления границ",
+             Inches(1.5), Inches(1.8), Inches(10.3), Inches(2.2),
+             font_size=52, bold=False, color=DARK_GREEN, align=PP_ALIGN.CENTER)
+
+    # Разделитель — зелёная линия
+    sep = slide1.shapes.add_shape(1, Inches(4.5), Inches(4.2), Inches(4.3), Pt(3))
+    sep.fill.solid()
+    sep.fill.fore_color.rgb = MID_GREEN
+    sep.line.fill.background()
+
+    # Подпись центра
+    add_text(slide1, "Центр квантовой педагогики и психологии «Фуллерен»",
+             Inches(1.5), Inches(4.5), Inches(10.3), Inches(0.7),
+             font_size=22, bold=False, color=MID_GREEN, align=PP_ALIGN.CENTER)
+
+    # ── Слайды 2-5: Пионы без изменений ─────────────────────────────────────
     for url in [SLIDE2_URL, SLIDE3_URL, SLIDE4_URL, SLIDE5_URL]:
         slide = prs.slides.add_slide(blank)
         add_full_image_slide(prs, slide, url)
 
-    # ── Слайды 6-14: Текстовые на светлом фоне (полноэкранные картинки) ──────
-    for url in [SLIDE6_URL, SLIDE7_URL, SLIDE8_URL, SLIDE9_URL,
-                SLIDE10_URL, SLIDE11_URL, SLIDE12_URL, SLIDE13_URL, SLIDE14_URL]:
-        slide = prs.slides.add_slide(blank)
-        add_full_image_slide(prs, slide, url)
+    # ── Вспомогательная функция для текстового слайда ────────────────────────
+    def text_slide(lines, font_sizes, bolds, colors, space_pts=None):
+        s = prs.slides.add_slide(blank)
+        set_bg(s, make_beige_bg(), prs)
+        aligns = [PP_ALIGN.CENTER] * len(lines)
+        total_lines = len(lines)
+        block_h = Inches(1.0) * total_lines + Inches(0.5)
+        top = (H - block_h) / 2 - Inches(0.3)
+        add_multiline(s, lines,
+                      Inches(1.0), top, Inches(11.33), block_h,
+                      font_sizes, bolds, colors, aligns, space_pts)
+        return s
 
-    # ── Слайды 15-20: Новые слайды (полноэкранные картинки) ──────────────────
-    for url in [SLIDE15_URL, SLIDE16_URL, SLIDE17_URL,
-                SLIDE18_URL, SLIDE19_URL, SLIDE20_URL]:
-        slide = prs.slides.add_slide(blank)
-        add_full_image_slide(prs, slide, url)
+    # ── Слайд 6: ГОРОД ───────────────────────────────────────────────────────
+    text_slide(["ГОРОД"], [64], [True], [DARK_GREEN])
+
+    # ── Слайд 7: ГОРОД / ГРАД ────────────────────────────────────────────────
+    text_slide(["ГОРОД", "ГРАД"], [54, 54], [True, True], [DARK_GREEN, DARK_GREEN], [0, 20])
+
+    # ── Слайд 8: ГОРОД / ГРАД / ОГРАДА ───────────────────────────────────────
+    text_slide(["ГОРОД", "ГРАД", "ОГРАДА"], [48, 48, 48], [True, True, True],
+               [DARK_GREEN, DARK_GREEN, MID_GREEN], [0, 18, 18])
+
+    # ── Слайд 9: КТО БЫЛ ПЕРВЫМ ГРАДОСТРОИТЕЛЕМ? ─────────────────────────────
+    text_slide(["КТО БЫЛ ПЕРВЫМ\nГРАДОСТРОИТЕЛЕМ?"], [52], [True], [DARK_GREEN])
+
+    # ── Слайд 10: Ты будешь сКИТАльцем по всей Земле. ────────────────────────
+    text_slide(["Ты будешь\nсКИТАльцем\nпо всей Земле."], [48], [False], [DARK_BROWN])
+
+    # ── Слайд 11: Корень ограничений / СТРАХ ─────────────────────────────────
+    text_slide(["Корень ограничений", "СТРАХ"],
+               [44, 60], [False, True],
+               [DARK_GREEN, RGBColor(0x8B, 0x1A, 0x1A)], [0, 24])
+
+    # ── Слайд 12: БЕЗГРАНИЧНОСТЬ ─────────────────────────────────────────────
+    text_slide(["БЕЗГРАНИЧНОСТЬ"], [64], [True], [DARK_GREEN])
+
+    # ── Слайд 13: БЕЗГРАНИЧНОСТЬ / по ВЕРе каждому дано будет ────────────────
+    text_slide(["БЕЗГРАНИЧНОСТЬ", "по ВЕРе каждому дано будет"],
+               [52, 44], [True, False],
+               [DARK_GREEN, DARK_GREEN], [0, 28])
+
+    # ── Слайд 14: БЕЗГРАНИЧНОСТЬ / по ВЕРе... / уВЕРенность ─────────────────
+    text_slide(["БЕЗГРАНИЧНОСТЬ", "по ВЕРе каждому дано будет", "уВЕРенность"],
+               [44, 38, 48], [True, False, True],
+               [DARK_GREEN, DARK_GREEN, MID_GREEN], [0, 24, 24])
+
+    # ── Слайд 15: Как проявляется уВЕРенность? ───────────────────────────────
+    text_slide(["Как проявляется\nуВЕРенность?"], [52], [False], [DARK_GREEN])
+
+    # ── Слайд 16: не нравится / отстаньте / не хочу ──────────────────────────
+    text_slide(["не нравится", "отстаньте", "не хочу"],
+               [48, 48, 48], [False, False, False],
+               [DARK_BROWN, DARK_BROWN, DARK_BROWN], [0, 16, 16])
+
+    # ── Слайд 17: не нравится / отстаньте / не хочу / СТОП!!! ───────────────
+    text_slide(["не нравится", "отстаньте", "не хочу", "СТОП!!!"],
+               [44, 44, 44, 58], [False, False, False, True],
+               [DARK_BROWN, DARK_BROWN, DARK_BROWN, RED_ACCENT], [0, 14, 14, 28])
+
+    # ── Слайд 18: ВМЕШАТЕЛЬСТВО / КАК ТРЕТЬЯ СТОРОНА / В КОНФЛИКТ ───────────
+    text_slide(["ВМЕШАТЕЛЬСТВО", "КАК ТРЕТЬЯ СТОРОНА", "В КОНФЛИКТ"],
+               [54, 46, 54], [True, False, True],
+               [DARK_GREEN, MID_GREEN, DARK_GREEN], [0, 28, 28])
+
+    # ── Слайд 19: КАК МЫ МОЖЕМ НАРУШАТЬ ГРАНИЦЫ? ────────────────────────────
+    text_slide(["КАК МЫ МОЖЕМ\nНАРУШАТЬ\nГРАНИЦЫ?"], [52], [True], [DARK_GREEN])
+
+    # ── Слайд 20: СОВЕТЫ (ПРЕДЛОЖЕНИЯ) / 5 ВИДОВ ВМЕШАТЕЛЬСТВ ───────────────
+    text_slide(["СОВЕТЫ (ПРЕДЛОЖЕНИЯ)", "5 ВИДОВ ВМЕШАТЕЛЬСТВ"],
+               [48, 56], [False, True],
+               [MID_GREEN, DARK_GREEN], [0, 32])
 
     # ── Сохраняем и отдаём base64 ─────────────────────────────────────────────
     buf = io.BytesIO()
