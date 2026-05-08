@@ -34,6 +34,14 @@ SLIDE11_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543
 SLIDE12_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/f9a5125d-39f7-49e4-a615-c812cab487c4.jpg"
 SLIDE13_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/ac33b6fc-0179-4405-8115-c0977a5f0585.jpg"
 SLIDE14_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/d053f5dc-f4de-45e4-acbe-93f27f9fa685.jpg"
+SLIDE15_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/55a41459-daa7-4807-888e-01e431cc5ff3.jpg"
+SLIDE16_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/81180375-d2f7-4702-94ba-9e1158282cee.jpg"
+SLIDE17_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/c0adf201-961e-43f8-a3ed-7e7f3c76aa4d.jpg"
+SLIDE18_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/d96f1c30-a985-406e-90a3-fa07d0d24f65.jpg"
+SLIDE19_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/f9dd08ee-b85d-4fa3-be7f-e9970371184a.jpg"
+SLIDE20_URL = "https://cdn.poehali.dev/projects/a853d61a-73f8-407d-846b-967c4543637c/bucket/8247f3eb-be58-4e85-b7a1-d9c2b0706875.jpg"
+
+RED = RGBColor(0xCC, 0x00, 0x00)
 
 
 def download_image_as_jpg(url: str, max_dim: int = 1920, bg_color=(235, 235, 235)) -> io.BytesIO:
@@ -179,6 +187,12 @@ def handler(event: dict, context) -> dict:
     # ── Слайды 6-14: Текстовые на светлом фоне (полноэкранные картинки) ──────
     for url in [SLIDE6_URL, SLIDE7_URL, SLIDE8_URL, SLIDE9_URL,
                 SLIDE10_URL, SLIDE11_URL, SLIDE12_URL, SLIDE13_URL, SLIDE14_URL]:
+        slide = prs.slides.add_slide(blank)
+        add_full_image_slide(prs, slide, url)
+
+    # ── Слайды 15-20: Новые слайды (полноэкранные картинки) ──────────────────
+    for url in [SLIDE15_URL, SLIDE16_URL, SLIDE17_URL,
+                SLIDE18_URL, SLIDE19_URL, SLIDE20_URL]:
         slide = prs.slides.add_slide(blank)
         add_full_image_slide(prs, slide, url)
 
