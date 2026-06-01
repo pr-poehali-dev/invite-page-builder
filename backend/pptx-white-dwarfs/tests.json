@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "name": "Generate White Dwarfs PPTX",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": { "filename": "white_dwarfs.pptx" },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

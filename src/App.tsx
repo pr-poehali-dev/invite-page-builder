@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import VstrechaIskra from "./pages/VstrechaIskra";
 import GranitsynPptx from "./pages/GranitsynPptx";
+import AstronomyPptx from "./pages/AstronomyPptx";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/vstrechaiskra" element={<VstrechaIskra />} />
           <Route path="/granitsy-pptx" element={<GranitsynPptx />} />
+          <Route path="/astronomy-pptx" element={<AstronomyPptx />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

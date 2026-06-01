@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "name": "Generate Saturn PPTX",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": { "filename": "saturn_rings.pptx" },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
