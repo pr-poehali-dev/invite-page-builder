@@ -22,18 +22,18 @@ interface Presentation {
 const presentations: Presentation[] = [
   {
     id: "saturn",
-    title: "Сатурн: кольца, их состав и происхождение",
-    subtitle: "Солнечная система",
+    title: "Космические зонды к внешним планетам: Voyager и открытия колец Урана",
+    subtitle: "Солнечная система · Тема №22",
     topic: "Астрономия",
-    slides: "12 слайдов",
+    slides: "13 слайдов",
     url: SATURN_URL,
-    filename: "saturn_rings.pptx",
+    filename: "voyager_uranus_rings.pptx",
     accent: "#D4A917",
     bg: "linear-gradient(135deg, #0D1B3E 0%, #1A316B 100%)",
     border: "#D4A917",
     badge: "#D4A917",
     badgeBg: "rgba(212,169,23,0.12)",
-    icon: "🪐",
+    icon: "🚀",
   },
   {
     id: "dwarfs",
@@ -301,7 +301,7 @@ export default function AstronomyPptx() {
           marginInline: "auto",
           lineHeight: 1.5,
         }}>
-          Иванов Иван Иванович · Группа АС-21
+          Ефремова Анастасия Александровна · Группа 11С &nbsp;|&nbsp; Иванов Иван Иванович · Группа АС-21
         </p>
       </div>
 
